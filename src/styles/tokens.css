@@ -1,0 +1,59 @@
+/* One world: iOS system materials, one green tint, red only for record/stop/destroy.
+   Every color is light-dark(), so any region can switch appearance with color-scheme
+   (the live screen goes dark for white- or yellow-on-black captions, as iOS does). */
+:root {
+  color-scheme: light dark;
+  /* Grounds */
+  --bg: light-dark(#f2f2f7, #000000);                 /* systemGroupedBackground */
+  --card: light-dark(#ffffff, #1c1c1e);               /* secondarySystemGroupedBackground */
+  --raised: light-dark(#ffffff, #2c2c2e);
+  --fill: light-dark(rgba(118, 118, 128, 0.12), rgba(118, 118, 128, 0.24));
+  --fill-2: light-dark(rgba(118, 118, 128, 0.2), rgba(118, 118, 128, 0.36));
+  --selected: light-dark(#ffffff, #636366);
+  --bar: light-dark(rgba(242, 242, 247, 0.82), rgba(18, 18, 20, 0.8));
+  --scrim: light-dark(rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0.5));
+  /* Ink: secondary and tertiary raised from iOS values to pass 4.5:1 */
+  --label: light-dark(#000000, #ffffff);
+  --label-2: light-dark(rgba(60, 60, 67, 0.85), rgba(235, 235, 245, 0.72));
+  --label-3: light-dark(rgba(60, 60, 67, 0.76), rgba(235, 235, 245, 0.6));
+  --separator: light-dark(rgba(60, 60, 67, 0.29), rgba(84, 84, 88, 0.65));
+  --separator-strong: light-dark(rgba(60, 60, 67, 0.55), rgba(235, 235, 245, 0.45));
+  /* Roles */
+  --tint: light-dark(#1a7a4b, #30d158);               /* icon green: 5.3:1 on white, 9:1 on black */
+  --on-tint: light-dark(#ffffff, #002910);
+  --tint-fill: light-dark(rgba(26, 122, 75, 0.12), rgba(48, 209, 88, 0.18));
+  --record: light-dark(#ff3b30, #ff453a);
+  --record-ink: light-dark(#c4000f, #ff6961);         /* red text: 5.9:1 on white */
+  --busy: light-dark(#a35200, #ffb340);               /* orange text for transitional states */
+  --focus: light-dark(#0071e3, #409cff);
+  --shadow: light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.5));
+  /* Shape and space */
+  --r-group: 12px;
+  --r-control: 12px;
+  --r-capsule: 999px;
+  --gutter: max(1rem, env(safe-area-inset-left));
+  --gutter-r: max(1rem, env(safe-area-inset-right));
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+  --page: 42rem;
+  /* Dynamic Type ramp (rem follows the phone's text size) */
+  --t-large: 2.125rem; --t-title: 1.375rem; --t-head: 1.0625rem; --t-body: 1.0625rem;
+  --t-sub: 0.9375rem; --t-foot: 0.8125rem; --t-cap: 0.75rem;
+  /* Motion: critically damped (no overshoot), response ~0.35s */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --settle: linear(0, 0.157 4.6%, 0.508 11.9%, 0.787 19.9%, 0.907 25.3%, 0.968 31%, 0.995 38.5%, 1);
+}
+/* Increase Contrast */
+@media (prefers-contrast: more) {
+  :root {
+    --label-2: light-dark(rgba(60, 60, 67, 0.92), rgba(235, 235, 245, 0.9));
+    --label-3: light-dark(rgba(60, 60, 67, 0.85), rgba(235, 235, 245, 0.82));
+    --separator: light-dark(rgba(60, 60, 67, 0.6), rgba(235, 235, 245, 0.5));
+    --tint: light-dark(#0f5c37, #4ae17a);
+    --record-ink: light-dark(#9b000b, #ff8a84);
+    --bar: light-dark(#f2f2f7, #000000);
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  :root { --bar: var(--bg); }
+}
