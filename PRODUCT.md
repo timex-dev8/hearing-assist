@@ -2,15 +2,15 @@
 
 ## Platform
 
-A website built with React, designed first for phones and hosted on Vercel. People open it in Safari or Chrome and can add a home-screen shortcut. It also works on a laptop in a phone-width column.
+`web`. A website built with React and Vite, hosted on Vercel. It has two parts: a landing page at `/` for people deciding whether to use it, and the app at `/app`. The app is designed for phones first (bottom bar, home-screen shortcut opening straight into `/app`) and has a full desktop layout with a sidebar and a side-by-side notes and transcript view. Sessions are stored in this browser for now; the storage layer sits behind one interface so accounts (Supabase) can come later without changing the screens.
 
 ## Students and their work
 
-A student opens the site as a lecture or discussion begins, checks that everyone agrees to transcription, then follows readable live captions. After class they can revisit the transcript, review structured notes, and ask questions about the same conversation. Students who rely on captions must always be able to tell when the microphone stops.
+A student opens the app as a class, talk, meeting or discussion begins, picks what they are listening to (Lecture, Presentation, Meeting or Seminar), checks that everyone agrees to transcription, then follows readable live captions. One tap marks a moment that matters, without looking away. After saving, AI writes notes shaped for that mode: key terms and self-check questions for a lecture, the message and outline for a presentation, decisions and action items for a meeting, arguments and disagreements for a seminar. The notes open as an editable formatted document that exports to Google Docs (rich copy), Word (.docx) or PDF. Key terms and questions become study cards with spaced review. Students who rely on captions must always be able to tell when the microphone stops.
 
 ## Interaction design
 
-Follow Apple's iOS conventions so it feels like an app Apple made, beside Notes and Voice Memos: the system font, large titles, inset grouped lists, segmented controls, switches, action sheets and 44-point tap targets, in light and dark appearance. The layout follows Voice Memos rather than a tab bar: the notebook has one round record button at the bottom, and a gear opens Settings. The live screen is the transcript itself, with a waveform, a timer, and one record/stop control. One green tint marks everything you can tap. Red appears only for recording, stopping and deleting. Start with an empty notebook stored in the browser. The primary language for this first release is US English.
+Its own design, not a copy of any platform: a white page, ink text, Bricolage Grotesque for headings and Atkinson Hyperlegible Next for everything read. A soft green and blue aura sits only behind the places where words appear. Green marks actions, blue marks AI and sources, red is only for the microphone and deleting. Five destinations: Home, Notes, Record, Study, Settings. Patterns people already know are kept where they help: tabs, switches, action sheets, 44-point targets, light and dark appearance. See DESIGN.md. The primary language for this release is US English.
 
 ## Accessibility
 
@@ -22,8 +22,9 @@ Everyone must be able to use it, not only people who hear well and see well.
 - **Screen readers.** Each finished caption is announced once (this can be turned off). The typing indicator is not announced. Every control has a name, role and state; screens move focus to their heading; action sheets trap and return focus.
 - **Keyboard and switch access.** Everything works without touch, with a visible focus ring.
 - **System settings respected.** Dark mode, Increase Contrast, Reduce Motion, Reduce Transparency and Windows high-contrast mode are all supported.
-- **Checked automatically.** Playwright runs axe (WCAG 2.2 AA) on every screen and state in light, dark and increased contrast, plus a keyboard-only run of the whole flow and 200% text reflow checks.
+- **Checked automatically.** Playwright runs axe (WCAG 2.2 AA) on the landing page and every app screen, tab and sheet in light, dark and increased contrast, plus a keyboard-only run (landing → app → session → export → editor toolbar), reflow at 320 px and 390 px with 200% text, and the live screen while listening, stopped and leaving.
+- **Notes stay accessible when exported.** The document uses real headings and lists, so the Word file and the Google Docs paste keep their structure for screen readers.
 
 ## AI
 
-Google Gemini turns recorded audio into captions, and, only for sessions where the student allows it, writes notes and answers questions. Every note and answer must quote the transcript word for word; the server discards anything it can't find in the transcript.
+Google Gemini turns recorded audio into captions, and, only for sessions where the student allows it, writes notes and answers questions. The API key stays on the server. Every note item and answer must quote the transcript word for word; the server discards anything it can't find in the transcript, drops task owners and dates nobody said, and makes sure marked moments are covered. Each note item keeps a link back to the second it came from.

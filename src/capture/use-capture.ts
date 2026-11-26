@@ -145,5 +145,7 @@ export function useCapture() {
     return () => clearInterval(id);
   }, [phase]);
 
-  return { phase, error, transcript, captions: finish(transcript), pending, level, elapsed, startedAt, start, stop };
+  /** Where in the recording we are right now, in ms. */
+  const position = () => recorded.current + (status.current === 'listening' ? Date.now() - runStart.current : 0);
+  return { phase, error, transcript, captions: finish(transcript), pending, level, elapsed, startedAt, start, stop, position };
 }

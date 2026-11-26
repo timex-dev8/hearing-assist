@@ -31,7 +31,7 @@ test('every fixed caption color pair is at least 7:1 (WCAG AAA)', () => {
 test('CSS variables use rem so captions follow the phone text size, and auto colors follow the theme', () => {
   const vars = captionVars(presets.default);
   assert.match(vars['--cap-size'], /rem$/);
-  assert.equal(vars['--cap-fg'], 'var(--label)');
+  assert.equal(vars['--cap-fg'], 'var(--ink)');
   assert.equal(captionVars({ ...presets.default, spacing: 'roomy' })['--cap-leading'], '1.65');
   assert.match(captionVars({ ...presets.default, font: 'hyperlegible' })['--cap-font'], /Atkinson Hyperlegible/);
 });

@@ -1,72 +1,86 @@
-/* One world: iOS system materials, one green tint, red only for record/stop/destroy.
-   Every color is light-dark(), so any region can switch appearance with color-scheme
-   (the live screen goes dark for white- or yellow-on-black captions, as iOS does). */
+/* Hearing Assist tokens. See DESIGN.md. Light by default; dark and "match device" via data-theme on <html>. */
+:root { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; --aura-opacity: 0.32; }
+:root[data-theme="system"] { color-scheme: light dark; }
+@media (prefers-color-scheme: dark) { :root[data-theme="system"] { --aura-opacity: 0.32; } }
+
 :root {
-  color-scheme: light dark;
   /* Grounds */
-  --bg: light-dark(#f2f2f7, #000000);                 /* systemGroupedBackground */
-  --card: light-dark(#ffffff, #1c1c1e);               /* secondarySystemGroupedBackground */
-  --raised: light-dark(#ffffff, #2c2c2e);
-  --fill: light-dark(rgba(118, 118, 128, 0.12), rgba(118, 118, 128, 0.24));
-  --fill-2: light-dark(rgba(118, 118, 128, 0.2), rgba(118, 118, 128, 0.36));
-  --selected: light-dark(#ffffff, #636366);
-  --bar: light-dark(rgba(242, 242, 247, 0.82), rgba(18, 18, 20, 0.8));
-  --scrim: light-dark(rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0.5));
-  /* Ink: secondary and tertiary raised from iOS values to pass 4.5:1 */
-  --label: light-dark(#000000, #ffffff);
-  --label-2: light-dark(rgba(60, 60, 67, 0.85), rgba(235, 235, 245, 0.72));
-  --label-3: light-dark(rgba(60, 60, 67, 0.76), rgba(235, 235, 245, 0.6));
-  --separator: light-dark(rgba(60, 60, 67, 0.29), rgba(84, 84, 88, 0.65));
-  --separator-strong: light-dark(rgba(60, 60, 67, 0.55), rgba(235, 235, 245, 0.45));
+  --bg: light-dark(#ffffff, #0b100e);
+  --surface: light-dark(#f4f7f5, #141b18);
+  --surface-2: light-dark(#e9eeeb, #1c2420);
+  --raised: light-dark(#ffffff, #1a221f);
+  --line: light-dark(#dfe5e2, #26302b);
+  --line-strong: light-dark(#7b8882, #7f8c86);
+  --scrim: light-dark(rgb(14 26 22 / 0.4), rgb(0 0 0 / 0.6));
+  /* Ink */
+  --ink: light-dark(#0e1a16, #eef3f1);
+  --ink-2: light-dark(#3f4c47, #b9c4bf);
+  --ink-3: light-dark(#5b6762, #93a09a);
   /* Roles */
-  --tint: light-dark(#1a7a4b, #30d158);               /* icon green: 5.3:1 on white, 9:1 on black */
-  --on-tint: light-dark(#ffffff, #002910);
-  --tint-fill: light-dark(rgba(26, 122, 75, 0.12), rgba(48, 209, 88, 0.18));
-  --record: light-dark(#ff3b30, #ff453a);
-  --record-ink: light-dark(#c4000f, #ff6961);         /* red text: 5.9:1 on white */
-  --busy: light-dark(#a35200, #ffb340);               /* orange text for transitional states */
-  --focus: light-dark(#0071e3, #409cff);
-  --shadow: light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.5));
-  /* Liquid Glass: floating controls over content */
-  --glass: light-dark(rgba(255, 255, 255, 0.64), rgba(44, 44, 48, 0.58));
-  --glass-strong: light-dark(rgba(255, 255, 255, 0.82), rgba(44, 44, 48, 0.78));
-  --glass-edge: light-dark(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.16));
-  --glass-hi: light-dark(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.2));
-  --glass-shadow: light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.5));
-  --glass-blur: blur(24px) saturate(180%);
+  --green: light-dark(#0f7a4a, #3ddc84);
+  --green-press: light-dark(#0b6139, #2fc472);
+  --on-green: light-dark(#ffffff, #04130b);
+  --green-soft: light-dark(#e7f6ec, #12301f);
+  --blue: light-dark(#0b62c4, #6aa8ff);
+  --blue-soft: light-dark(#e8f0fc, #14243b);
+  --red: light-dark(#c62828, #ff6b6b);
+  --red-fill: light-dark(#e5322d, #ff5a52);
+  --red-soft: light-dark(#fdecec, #3a1717);
+  --amber: light-dark(#8a5200, #f2b45a);
+  --amber-soft: light-dark(#fdf2dd, #33260f);
+  --violet: light-dark(#6a42c2, #b69bff);
+  --violet-soft: light-dark(#f0eafb, #261d3d);
+  --focus: light-dark(#0b62c4, #8fbfff);
   --aura-1: #30d158;
   --aura-2: #0a84ff;
+  --aura-opacity: 0.4; /* light-dark() takes colors only, so dark sets its own below */
+  /* Depth */
+  --float: 0 1px 2px rgb(14 26 22 / 0.06), 0 8px 24px -6px rgb(14 26 22 / 0.16);
+  --float-strong: 0 2px 6px rgb(14 26 22 / 0.08), 0 24px 48px -12px rgb(14 26 22 / 0.24);
+  --bar: color-mix(in srgb, var(--bg) 84%, transparent);
+  --bar-blur: blur(20px) saturate(160%);
+  /* Type */
+  --display: "Bricolage Grotesque Variable", "Atkinson Hyperlegible Next Variable", system-ui, sans-serif;
+  --text: "Atkinson Hyperlegible Next Variable", -apple-system, system-ui, "Segoe UI", sans-serif;
   /* Shape and space */
-  --r-card: 24px;
-  --r-group: 12px;
-  --r-control: 12px;
-  --r-capsule: 999px;
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 28px;
+  --r-pill: 999px;
   --gutter: max(1rem, env(safe-area-inset-left));
   --gutter-r: max(1rem, env(safe-area-inset-right));
   --safe-top: env(safe-area-inset-top);
   --safe-bottom: env(safe-area-inset-bottom);
-  --page: 42rem;
-  /* Dynamic Type ramp (rem follows the phone's text size) */
-  --t-large: 2.125rem; --t-title: 1.375rem; --t-head: 1.0625rem; --t-body: 1.0625rem;
-  --t-sub: 0.9375rem; --t-foot: 0.8125rem; --t-cap: 0.75rem;
-  /* Motion: critically damped (no overshoot), response ~0.35s */
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --settle: linear(0, 0.157 4.6%, 0.508 11.9%, 0.787 19.9%, 0.907 25.3%, 0.968 31%, 0.995 38.5%, 1);
+  --nav-h: 4.5rem;
+  --measure: 68ch;
+  /* Motion: critically damped exponential out, no bounce */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --t-fast: 160ms;
+  --t-mid: 260ms;
+  --t-settle: 420ms;
 }
-/* Increase Contrast */
+
+/* Mode hues: set --mode/--mode-soft by class */
+.mode-lecture { --mode: var(--green); --mode-soft: var(--green-soft); }
+.mode-presentation { --mode: var(--blue); --mode-soft: var(--blue-soft); }
+.mode-meeting { --mode: var(--amber); --mode-soft: var(--amber-soft); }
+.mode-seminar { --mode: var(--violet); --mode-soft: var(--violet-soft); }
+
 @media (prefers-contrast: more) {
   :root {
-    --label-2: light-dark(rgba(60, 60, 67, 0.92), rgba(235, 235, 245, 0.9));
-    --label-3: light-dark(rgba(60, 60, 67, 0.85), rgba(235, 235, 245, 0.82));
-    --separator: light-dark(rgba(60, 60, 67, 0.6), rgba(235, 235, 245, 0.5));
-    --tint: light-dark(#0f5c37, #4ae17a);
-    --record-ink: light-dark(#9b000b, #ff8a84);
-    --bar: light-dark(#f2f2f7, #000000);
+    --line: light-dark(#7b8882, #7f8c86);
+    --line-strong: light-dark(#3f4c47, #b9c4bf);
+    --ink-2: light-dark(#26302c, #dbe3df);
+    --ink-3: light-dark(#3f4c47, #b9c4bf);
+    --green: light-dark(#075a35, #5ff0a0);
+    --blue: light-dark(#084b98, #9cc6ff);
+    --red: light-dark(#9d1717, #ff9a9a);
+    --bar: var(--bg);
+    --bar-blur: none;
+    --aura-opacity: 0 !important;
   }
 }
 @media (prefers-reduced-transparency: reduce) {
-  :root { --bar: var(--bg); --glass: var(--raised); --glass-strong: var(--raised); --glass-blur: none; }
-}
-@media (prefers-contrast: more) {
-  :root { --glass: var(--raised); --glass-strong: var(--raised); --glass-edge: var(--separator-strong); --glass-blur: none; }
+  :root { --bar: var(--bg); --bar-blur: none; --aura-opacity: 0 !important; }
 }

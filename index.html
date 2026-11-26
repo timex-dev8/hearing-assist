@@ -3,16 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
-    <meta name="color-scheme" content="light dark" />
-    <meta name="description" content="Live captions for lectures and meetings, with notes you can ask questions about." />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="color-scheme" content="light" />
+    <meta name="description" content="Large, readable live captions for class, then notes shaped for a lecture, presentation, meeting or seminar. Made for students who are deaf or hard of hearing." />
     <meta name="apple-mobile-web-app-title" content="Hearing Assist" />
     <meta name="format-detection" content="telephone=no" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <title>Hearing Assist</title>
+    <title>Hearing Assist · Live captions and notes for class</title>
+    <script>
+      // Paint the saved appearance before the app loads, so dark mode never flashes white.
+      try { document.documentElement.dataset.theme = localStorage.getItem('ha-theme') || 'light'; } catch {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

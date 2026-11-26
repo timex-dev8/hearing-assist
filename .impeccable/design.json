@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-26T22:58:47.945009+00:00",
+  "title": "Design System: Hearing Assist",
+  "extensions": {
+    "colorMeta": {
+      "action-green": {
+        "role": "primary",
+        "displayName": "Action Green",
+        "tonalRamp": [
+          "#04291a",
+          "#075a35",
+          "#0b6139",
+          "#0f7a4a",
+          "#2f9a66",
+          "#6cc095",
+          "#b5e2c8",
+          "#e7f6ec"
+        ]
+      },
+      "ai-blue": {
+        "role": "secondary",
+        "displayName": "Source Blue",
+        "tonalRamp": [
+          "#06203f",
+          "#084b98",
+          "#0b62c4",
+          "#3a82d6",
+          "#6aa8ff",
+          "#9cc6ff",
+          "#cfe1fb",
+          "#e8f0fc"
+        ]
+      },
+      "mic-red": {
+        "role": "tertiary",
+        "displayName": "Microphone Red",
+        "tonalRamp": [
+          "#3a1717",
+          "#7a1414",
+          "#9d1717",
+          "#c62828",
+          "#e5322d",
+          "#ff6b6b",
+          "#f9c6c6",
+          "#fdecec"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Green-Black Ink",
+        "tonalRamp": [
+          "#0b100e",
+          "#0e1a16",
+          "#26302c",
+          "#3f4c47",
+          "#5b6762",
+          "#7b8882",
+          "#dfe5e2",
+          "#f4f7f5"
+        ]
+      },
+      "aura-green": {
+        "role": "accent",
+        "displayName": "Aura Green (light only, never text)"
+      },
+      "aura-blue": {
+        "role": "accent",
+        "displayName": "Aura Blue (light only, never text)"
+      },
+      "meeting-amber": {
+        "role": "accent",
+        "displayName": "Meeting Amber"
+      },
+      "seminar-violet": {
+        "role": "accent",
+        "displayName": "Seminar Violet"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Landing hero and section titles only."
+      },
+      "headline": {
+        "displayName": "Screen title",
+        "purpose": "One h1 per app screen; takes focus on arrival."
+      },
+      "title": {
+        "displayName": "Heading",
+        "purpose": "Card and document section headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Everything read: UI, notes, default caption face. 68ch measure."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons, chips, nav."
+      }
+    },
+    "shadows": [
+      {
+        "name": "float",
+        "value": "0 1px 2px rgb(14 26 22 / 0.06), 0 8px 24px -6px rgb(14 26 22 / 0.16)",
+        "purpose": "Floating chrome: bottom nav, live dock, selected tab, flashcard."
+      },
+      {
+        "name": "float-strong",
+        "value": "0 2px 6px rgb(14 26 22 / 0.08), 0 24px 48px -12px rgb(14 26 22 / 0.24)",
+        "purpose": "The landing doc preview and notes card peeking over the stage."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "purpose": "Critically damped exponential out. No bounce anywhere."
+      },
+      {
+        "name": "fast",
+        "value": "160ms",
+        "purpose": "State changes: press, hover, toggle."
+      },
+      {
+        "name": "mid",
+        "value": "260ms",
+        "purpose": "Sheets, menus, FAQ icon."
+      },
+      {
+        "name": "settle",
+        "value": "420ms",
+        "purpose": "Words that settle: blur and lift to sharp for new captions and note lines."
+      },
+      {
+        "name": "aura-drift",
+        "value": "24s alternate",
+        "purpose": "The aura's slow drift; stops under Reduce Motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "landing-two-column",
+        "value": "960px"
+      },
+      {
+        "name": "landing-nav-links",
+        "value": "860px"
+      },
+      {
+        "name": "app-sidebar",
+        "value": "900px"
+      },
+      {
+        "name": "session-split",
+        "value": "1240px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one main action per view.",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 256 256\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M128 176a48 48 0 0 0 48-48V64a48 48 0 0 0-96 0v64a48 48 0 0 0 48 48Zm-32-112a32 32 0 0 1 64 0v64a32 32 0 0 1-64 0Zm40 143.6V232a8 8 0 0 1-16 0v-24.4A80.1 80.1 0 0 1 48 128a8 8 0 0 1 16 0 64 64 0 0 0 128 0 8 8 0 0 1 16 0 80.1 80.1 0 0 1-72 79.6Z\"/></svg>Start captioning</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;gap:8px;min-height:52px;padding:12px 24px;border:0;border-radius:999px;background:#0f7a4a;color:#fff;font:650 17px/1.2 'Atkinson Hyperlegible Next Variable', -apple-system, system-ui, sans-serif;cursor:pointer;transition:background-color 160ms cubic-bezier(.2,.8,.2,1),transform 160ms cubic-bezier(.2,.8,.2,1)}.ds-btn-primary:hover{background:#0b6139}.ds-btn-primary:active{transform:scale(.97)}.ds-btn-primary:focus-visible{outline:3px solid #0b62c4;outline-offset:2px}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Every other action: Export, Open app, Again.",
+      "html": "<button class=\"ds-btn-secondary\">Export</button>",
+      "css": ".ds-btn-secondary{min-height:44px;padding:10px 18px;border:0;border-radius:999px;background:#f4f7f5;color:#0e1a16;box-shadow:inset 0 0 0 1px #dfe5e2;font:650 16px/1.2 'Atkinson Hyperlegible Next Variable', -apple-system, system-ui, sans-serif;cursor:pointer;transition:background-color 160ms cubic-bezier(.2,.8,.2,1)}.ds-btn-secondary:hover{background:#e9eeeb}.ds-btn-secondary:focus-visible{outline:3px solid #0b62c4;outline-offset:2px}"
+    },
+    {
+      "name": "Mode Chip",
+      "kind": "chip",
+      "refersTo": "chip-selected",
+      "description": "Single choice; selection shows a check, never color alone.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip on\" aria-pressed=\"true\">Lecture <svg width=\"16\" height=\"16\" viewBox=\"0 0 256 256\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M232.5 77.5l-128 128a12 12 0 0 1-17 0l-56-56a12 12 0 0 1 17-17L96 180l119.5-119.5a12 12 0 0 1 17 17Z\"/></svg></button><button class=\"ds-chip\">Meeting</button></div>",
+      "css": ".ds-chips{display:flex;gap:8px;flex-wrap:wrap}.ds-chip{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border:0;border-radius:999px;background:#fff;color:#0e1a16;box-shadow:inset 0 0 0 1px #7b8882;font:650 16px/1.2 'Atkinson Hyperlegible Next Variable', -apple-system, system-ui, sans-serif;cursor:pointer}.ds-chip.on{background:#e7f6ec;color:#0f7a4a;box-shadow:inset 0 0 0 2px #0f7a4a}.ds-chip:focus-visible{outline:3px solid #0b62c4;outline-offset:2px}"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Library search across titles, transcripts and notes.",
+      "html": "<label class=\"ds-search\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 256 256\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M229.7 218.3l-50.1-50.1a88.1 88.1 0 1 0-11.3 11.3l50.1 50.1a8 8 0 0 0 11.3-11.3ZM40 112a72 72 0 1 1 72 72 72.1 72.1 0 0 1-72-72Z\"/></svg><input placeholder=\"Search notes and transcripts\" aria-label=\"Search notes and transcripts\"></label>",
+      "css": ".ds-search{display:flex;align-items:center;gap:10px;min-height:48px;padding:0 16px;border-radius:999px;background:#f4f7f5;box-shadow:inset 0 0 0 1px #7b8882;color:#5b6762}.ds-search:focus-within{box-shadow:inset 0 0 0 2px #0f7a4a}.ds-search input{flex:1;min-width:0;width:0;border:0;background:none;outline:none;font:400 17px/1.4 'Atkinson Hyperlegible Next Variable', -apple-system, system-ui, sans-serif;color:#0e1a16}.ds-search input::placeholder{color:#5b6762}"
+    },
+    {
+      "name": "Bottom Nav",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Phone navigation: five slots, raised Record, labels always visible.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main\"><a class=\"on\" href=\"#\">Home</a><a href=\"#\">Notes</a><a class=\"rec\" href=\"#\"><span></span>Record</a><a href=\"#\">Study</a><a href=\"#\">Settings</a></nav>",
+      "css": ".ds-nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:end;padding:6px 8px;background:color-mix(in srgb,#fff 84%,transparent);backdrop-filter:blur(20px) saturate(160%);border-top:1px solid #dfe5e2}.ds-nav a{display:grid;justify-items:center;gap:2px;min-height:56px;align-content:end;padding:6px 4px;color:#5b6762;text-decoration:none;font:700 12.75px/1.2 'Atkinson Hyperlegible Next Variable', -apple-system, system-ui, sans-serif}.ds-nav a.on{color:#0e1a16}.ds-nav a.rec{color:#0e1a16}.ds-nav a.rec span{display:grid;place-items:center;width:56px;height:56px;margin-top:-24px;border-radius:50%;background:#0e1a16;box-shadow:0 0 0 4px #fff}.ds-nav a.rec span::after{content:'';width:22px;height:22px;border-radius:50%;background:#e5322d}.ds-nav a:focus-visible{outline:3px solid #0b62c4;outline-offset:2px;border-radius:16px}"
+    },
+    {
+      "name": "Session Row",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "A saved session: mode icon in its hue, title, meta, last words.",
+      "html": "<a class=\"ds-row\" href=\"#\"><span class=\"ds-row-icon\">L</span><span><strong>Cell Biology</strong><small>Lecture · 4:28 PM · 48:00</small><span>How water and particles cross the cell membrane.</span></span></a>",
+      "css": ".ds-row{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:16px;background:#fff;box-shadow:inset 0 0 0 1px #dfe5e2;color:#0e1a16;text-decoration:none;font:400 16px/1.45 'Atkinson Hyperlegible Next Variable', -apple-system, system-ui, sans-serif}.ds-row:hover{background:#f4f7f5}.ds-row:focus-visible{outline:3px solid #0b62c4;outline-offset:2px}.ds-row-icon{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:#e7f6ec;color:#0f7a4a;font-weight:700}.ds-row strong{display:block;font-weight:700}.ds-row small{display:block;color:#5b6762;font-size:14px}"
+    },
+    {
+      "name": "Source Pill",
+      "kind": "custom",
+      "description": "Every AI note line links to the second it came from. Named by its visible time.",
+      "html": "<p class=\"ds-doc\"><strong>Osmosis</strong> — water moving across a membrane toward more solute <button class=\"ds-src\" aria-label=\"1:01, show in transcript\">1:01</button></p>",
+      "css": ".ds-doc{max-width:68ch;font:400 17px/1.6 'Atkinson Hyperlegible Next Variable', -apple-system, system-ui, sans-serif;color:#0e1a16}.ds-src{display:inline-flex;align-items:center;min-height:24px;padding:0 8px;margin-left:4px;border:0;border-radius:999px;background:#e8f0fc;color:#0b62c4;font:700 13px/1 ui-monospace,monospace;cursor:pointer;vertical-align:1px}.ds-src:hover{background:#cfe1fb}.ds-src:focus-visible{outline:3px solid #0b62c4;outline-offset:2px}"
+    },
+    {
+      "name": "Aura Caption Stage",
+      "kind": "custom",
+      "description": "The signature: captions settle over a soft green and blue light.",
+      "html": "<div class=\"ds-stage\"><i></i><i></i><p class=\"old\">Osmosis is water moving across a membrane,</p><p>toward the side with more dissolved stuff in it.</p></div>",
+      "css": ".ds-stage{position:relative;overflow:hidden;isolation:isolate;padding:32px 28px;border-radius:28px;background:#f4f7f5;box-shadow:inset 0 0 0 1px #dfe5e2}.ds-stage i{position:absolute;z-index:-1;width:70%;aspect-ratio:1;border-radius:50%;filter:blur(64px);opacity:.4}.ds-stage i:first-child{background:#30d158;left:-18%;top:-30%}.ds-stage i:last-child{background:#0a84ff;right:-20%;bottom:-40%}.ds-stage p{margin:0 0 8px;font:600 26px/1.3 'Atkinson Hyperlegible Next Variable', -apple-system, system-ui, sans-serif;color:#0e1a16}.ds-stage p.old{opacity:.62}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Words in good light",
+    "overview": "Hearing Assist is a white, quiet page where the loudest thing is what was said. Captions and notes are the hero; everything else steps back. Two self-hosted faces carry it: Bricolage Grotesque for a warm, confident display voice and Atkinson Hyperlegible Next, drawn by the Braille Institute for low-vision readers, for everything read and operated.\n\nThe one indulgence is the aura: a soft green and blue light behind the places where words appear (the landing stage, the caption preview, the Home start card, live captions, the closing band). Color otherwise has jobs: green acts, blue marks AI and sources, red is only the microphone and deleting, and each note mode owns one quiet hue for its badge and icon.\n\nAccessibility is the brand, not a setting: AA contrast in light, dark and Increase Contrast, 44 px targets, focus rings on everything reachable, reflow at 320 px with 200% text, and state never shown by color alone.",
+    "keyCharacteristics": [
+      "White ground, green-black ink",
+      "Aura only behind words",
+      "Words that settle (420 ms blur to sharp)",
+      "Bricolage display, Atkinson Hyperlegible Next body",
+      "Flat cards with 1px edges; shadows only on floating chrome",
+      "One primary action per view"
+    ],
+    "rules": [
+      {
+        "name": "The Aura Rule",
+        "body": "The aura sits only behind captions, the caption preview, the Home start card and the landing hero and closing band, at 0.4 opacity (0.32 dark). Never behind paragraphs; hidden under Increase Contrast and Reduce Transparency.",
+        "section": "colors"
+      },
+      {
+        "name": "The Jobs Rule",
+        "body": "Green does things, blue is AI and sources, red is only the microphone and deleting, mode hues only say which mode.",
+        "section": "colors"
+      },
+      {
+        "name": "The Flat-Edge Rule",
+        "body": "Cards are flat with a 1px line. Shadows belong to floating chrome. No thick accent stripes on rounded cards.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Bricolage for display and headings; Atkinson Hyperlegible Next for everything read or tapped. Sizes in rem so they follow the phone's text size.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "Do let real words be the hero: captions, notes, example content labeled as examples.",
+      "Do keep one primary action per view.",
+      "Do show selection with a check or text, not color alone.",
+      "Do keep tap targets at 44 px or more."
+    ],
+    "donts": [
+      "Don't add eyebrow labels, gradient text, glass cards or three equal feature cards.",
+      "Don't use red for anything but the microphone and deleting.",
+      "Don't put thick accent stripes on rounded cards.",
+      "Don't invent claims: no user counts, accuracy percentages or testimonials."
+    ]
+  }
+}

@@ -3,6 +3,7 @@ export type Font = 'system' | 'rounded' | 'hyperlegible';
 export type Spacing = 'normal' | 'roomy';
 export type Colors = 'auto' | 'white-on-black' | 'black-on-white' | 'yellow-on-black';
 export type Preset = 'default' | 'large' | 'contrast' | 'classic' | 'custom';
+export type Appearance = 'light' | 'dark' | 'system';
 export type CaptionStyle = { font: Font; size: number; spacing: Spacing; colors: Colors };
 export type Preferences = {
   preset: Preset;
@@ -10,6 +11,7 @@ export type Preferences = {
   announce: boolean;   // read new captions aloud with VoiceOver
   flash: boolean;      // flash the screen when the microphone stops
   timestamps: boolean; // show times beside live captions
+  appearance: Appearance; // the whole site: light by default
 };
 
 /** Caption sizes in rem, so they scale with the phone's own text size. */
@@ -26,13 +28,14 @@ export const presetNames: Record<Preset, string> = {
   default: 'Default', large: 'Large Text', contrast: 'High Contrast', classic: 'Classic', custom: 'Custom',
 };
 export const fontNames: Record<Font, string> = { system: 'System', rounded: 'Rounded', hyperlegible: 'Atkinson Hyperlegible' };
+export const appearanceNames: Record<Appearance, string> = { light: 'Light', dark: 'Dark', system: 'Match Device' };
 export const colorNames: Record<Colors, string> = {
   auto: 'Match Appearance', 'white-on-black': 'White on Black', 'black-on-white': 'Black on White', 'yellow-on-black': 'Yellow on Black',
 };
 
 export const defaults: Preferences = {
   preset: 'default', font: 'system', size: 1, spacing: 'normal', colors: 'auto',
-  announce: true, flash: false, timestamps: false,
+  announce: true, flash: false, timestamps: false, appearance: 'light',
 };
 
 const clampStep = (index: number) => Math.min(sizeSteps.length - 1, Math.max(0, Math.round(Number(index) || 0)));
@@ -45,10 +48,10 @@ export function resolveCaption(prefs: Preferences): CaptionStyle {
 const families: Record<Font, string> = {
   system: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif',
   rounded: 'ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif',
-  hyperlegible: '"Atkinson Hyperlegible", -apple-system, system-ui, sans-serif',
+  hyperlegible: '"Atkinson Hyperlegible Next Variable", -apple-system, system-ui, sans-serif',
 };
 const palette: Record<Colors, [string, string]> = {
-  auto: ['var(--label)', 'var(--card)'],
+  auto: ['var(--ink)', 'var(--bg)'],
   'white-on-black': ['#ffffff', '#000000'],
   'black-on-white': ['#000000', '#ffffff'],
   'yellow-on-black': ['#ffd60a', '#000000'],
