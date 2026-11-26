@@ -120,12 +120,13 @@ test('the whole flow works with the keyboard alone', async ({ page }) => {
   await tabTo(/^Notes$/);
   await page.keyboard.press('ArrowRight');
   await expect(page.getByRole('radio', { name: 'Ask' })).toHaveAttribute('aria-checked', 'true');
-  await tabTo(/Question about this session/);
+  // The composer floats just above the view switcher: one step back from it.
+  await tabTo(/Question about this session/, true);
   await page.keyboard.type('When is the lab?');
   await page.keyboard.press('Enter');
   await expect(page.getByLabel('Questions and answers').getByText('Thursday.', { exact: true })).toBeVisible();
 
-  await tabTo(/^Ask$/, true);
+  await tabTo(/^Ask$/);
   await page.keyboard.press('ArrowLeft');
   await page.keyboard.press('ArrowLeft');
   await expect(page.getByRole('radio', { name: 'Transcript' })).toHaveAttribute('aria-checked', 'true');

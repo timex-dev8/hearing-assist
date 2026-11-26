@@ -44,8 +44,8 @@ export function Detail({ session, auto, job, generate, onUpdate, onDelete, onBac
       if ((e as Error)?.name !== 'AbortError') setShared('Couldn’t share the transcript from this browser.');
     }
   }
-  async function send() {
-    const q = question.trim();
+  async function send(text = question) {
+    const q = text.trim();
     if (!q || lock.current) return;
     setQuestion('');
     setThread(t => [...t, { question: q }]);
@@ -60,14 +60,28 @@ export function Detail({ session, auto, job, generate, onUpdate, onDelete, onBac
   }
 
   const spoken = session.captions.filter(c => c.text !== MISSED).length;
+  const askable = tab === 'Ask' && session.allowAI;
   return <Screen title={session.title}
-    leading={<NavButton icon="back" onClick={onBack}>Notebook</NavButton>}
-    trailing={<NavButton icon="share" label="Share transcript" onClick={() => void share()} />}>
+    leading={<NavButton icon="back" label="Notebook" onClick={onBack} />}
+    trailing={<NavButton icon="share" label="Share transcript" onClick={() => void share()} />}
+    toolbar={<div className="detail-bar">
+      {askable && !thread.length && <div className="suggestions">
+        {(session.mode === 'Lecture' ? ['What should I review?', 'Summarize the key points'] : ['What did we decide?', 'Who is doing what?'])
+          .map(q => <button key={q} type="button" className="suggestion glass" disabled={!!busy} onClick={() => void send(q)}>{q}</button>)}
+      </div>}
+      {askable && <form className="composer glass" onSubmit={e => { e.preventDefault(); void send(); }}>
+        <label className="visually-hidden" htmlFor="question">Question about this session</label>
+        <textarea id="question" className="composer-field" rows={1} value={question} maxLength={1000} placeholder="Ask about this session"
+          enterKeyHint="send" onChange={e => setQuestion(e.target.value)}
+          onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); void send(); } }} />
+        <button type="submit" className="send" disabled={!!busy || !question.trim()} aria-label="Send question"><Icon name="send" size={20} weight={2.4} /></button>
+      </form>}
+      <Segmented variant="dock" label="View" values={['Transcript', 'Notes', 'Ask'] as const} selected={tab} onChange={setTab} />
+    </div>}>
     <p className="meta">
       <span aria-hidden="true">{session.mode} · {formatDate(session.startedAt)} · <span className="tabular">{formatTime(session.durationMs)}</span></span>
       <span className="visually-hidden">{session.mode}, {formatDate(session.startedAt)}, {spokenTime(session.durationMs)}</span>
     </p>
-    <div className="sticky-tabs"><Segmented label="View" values={['Transcript', 'Notes', 'Ask'] as const} selected={tab} onChange={setTab} /></div>
     <p className="visually-hidden" role="status">{shared}</p>
     {!!shared && <p className="toast" aria-hidden="true">{shared}</p>}
     {!!error && <p className="banner" role="alert"><Icon name="alert" size={20} /><span>{error}</span></p>}
@@ -121,13 +135,6 @@ export function Detail({ session, auto, job, generate, onUpdate, onDelete, onBac
             : <p className="bubble theirs typing" aria-label="Reading transcript"><i /><i /><i /></p>}
         </div>)}
       </div>
-      <form className="composer" onSubmit={e => { e.preventDefault(); void send(); }}>
-        <label className="visually-hidden" htmlFor="question">Question about this session</label>
-        <textarea id="question" className="composer-field" rows={1} value={question} maxLength={1000} placeholder="Ask a question"
-          enterKeyHint="send" onChange={e => setQuestion(e.target.value)}
-          onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); void send(); } }} />
-        <button type="submit" className="send" disabled={!!busy || !question.trim()} aria-label="Send question"><Icon name="send" size={20} weight={2.4} /></button>
-      </form>
     </>}
 
     <ActionSheet open={deleting} onClose={() => setDeleting(false)}

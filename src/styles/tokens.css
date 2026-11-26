@@ -27,7 +27,17 @@
   --busy: light-dark(#a35200, #ffb340);               /* orange text for transitional states */
   --focus: light-dark(#0071e3, #409cff);
   --shadow: light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.5));
+  /* Liquid Glass: floating controls over content */
+  --glass: light-dark(rgba(255, 255, 255, 0.64), rgba(44, 44, 48, 0.58));
+  --glass-strong: light-dark(rgba(255, 255, 255, 0.82), rgba(44, 44, 48, 0.78));
+  --glass-edge: light-dark(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.16));
+  --glass-hi: light-dark(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.2));
+  --glass-shadow: light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.5));
+  --glass-blur: blur(24px) saturate(180%);
+  --aura-1: #30d158;
+  --aura-2: #0a84ff;
   /* Shape and space */
+  --r-card: 24px;
   --r-group: 12px;
   --r-control: 12px;
   --r-capsule: 999px;
@@ -55,5 +65,8 @@
   }
 }
 @media (prefers-reduced-transparency: reduce) {
-  :root { --bar: var(--bg); }
+  :root { --bar: var(--bg); --glass: var(--raised); --glass-strong: var(--raised); --glass-blur: none; }
+}
+@media (prefers-contrast: more) {
+  :root { --glass: var(--raised); --glass-strong: var(--raised); --glass-edge: var(--separator-strong); --glass-blur: none; }
 }

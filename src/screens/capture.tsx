@@ -2,11 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { ActionSheet, Button, formatTime, Group, Icon, NavButton, RecordButton, Screen, Segmented, spokenTime, Switch, Waveform } from '../components/ui';
 import { MISSED, useCapture } from '../capture/use-capture';
 import { usePreferences } from '../settings/use-preferences';
+import { presetNames, type Preset } from '../settings/caption-style';
 import type { Mode, Session } from '../types';
+
+const quickStyles: Preset[] = ['default', 'large', 'contrast', 'classic'];
 
 export function Capture({ onExit, onSave }: { onExit: () => void; onSave: (session: Session) => Promise<void> }) {
   const cap = useCapture();
-  const { prefs } = usePreferences();
+  const { prefs, update } = usePreferences();
   const [consent, setConsent] = useState(false);
   const [allowAI, setAllowAI] = useState(false);
   const [mode, setMode] = useState<Mode>('Lecture');
@@ -14,6 +17,7 @@ export function Capture({ onExit, onSave }: { onExit: () => void; onSave: (sessi
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
   const [leaving, setLeaving] = useState(false);
+  const [styling, setStyling] = useState(false);
   const [follow, setFollow] = useState(true);
   const [flash, setFlash] = useState(false);
   const list = useRef<HTMLDivElement>(null);
@@ -35,8 +39,10 @@ export function Capture({ onExit, onSave }: { onExit: () => void; onSave: (sessi
   // The microphone stopping without the student asking is the one thing they must never miss.
   useEffect(() => {
     if (cap.phase !== 'paused') return;
-    if (!userStopped.current && cap.error && prefs.flash) { setFlash(true); setTimeout(() => setFlash(false), 900); }
+    let timer = 0;
+    if (!userStopped.current && cap.error && prefs.flash) { setFlash(true); timer = window.setTimeout(() => setFlash(false), 900); }
     userStopped.current = false;
+    return () => clearTimeout(timer);
   }, [cap.phase]);
 
   function stop() { userStopped.current = true; void cap.stop(); }
@@ -65,42 +71,54 @@ export function Capture({ onExit, onSave }: { onExit: () => void; onSave: (sessi
   if (!capturing) return <Screen title="New Session" large={false} className="sheet"
     center={<span>New Session</span>}
     leading={<NavButton onClick={leave}>Cancel</NavButton>}
-    toolbar={<div className="toolbar">
+    toolbar={<div className="toolbar sheet-bar">
       {!!cap.error && <p className="banner" role="alert"><Icon name="alert" size={20} /><span>{cap.error}</span></p>}
-      <Button icon="waveform" size="large" disabled={!consent || busy} onClick={() => void cap.start(consent)}>
+      <Button icon="waveform" disabled={!consent || busy} onClick={() => void cap.start(consent)}>
         {busy ? 'Connecting…' : 'Start Live Captions'}</Button>
     </div>}>
-    <Group>
-      <label className="visually-hidden" htmlFor="session-title">Session title</label>
-      <input id="session-title" className="field" placeholder="Title (optional)" maxLength={120} value={title}
-        onChange={e => setTitle(e.target.value)} enterKeyHint="done" autoComplete="off" />
-    </Group>
-    <Group header="Notes Format" footer={mode === 'Lecture' ? 'Key concepts, examples and study prompts.' : 'Discussion, decisions and action items.'}>
-      <div className="block"><Segmented label="Notes format" values={['Lecture', 'Meeting'] as const} selected={mode} onChange={setMode} /></div>
-    </Group>
-    <Group header="Before You Start" footer="Audio is sent to Google Gemini to make captions and isn’t kept. Transcripts stay in this browser.">
-      <Switch checked={consent} onChange={setConsent} title="Everyone agrees to transcription" />
-      <Switch checked={allowAI} onChange={setAllowAI} title="Make AI notes after saving" detail="Sends the transcript to Gemini for notes and questions." />
+    <section className="group">
+      <h2 className="group-header"><label htmlFor="session-title">Session title</label></h2>
+      <div className="group-body">
+        <input id="session-title" className="field" placeholder="Optional, like Cell Biology" maxLength={120} value={title}
+          onChange={e => setTitle(e.target.value)} enterKeyHint="done" autoComplete="off" />
+      </div>
+    </section>
+    <section className="group" aria-labelledby="mode-h">
+      <h2 className="group-header" id="mode-h">Notes format</h2>
+      <Segmented variant="cards" label="Notes format" values={['Lecture', 'Meeting'] as const} selected={mode} onChange={setMode}
+        icons={{ Lecture: 'lecture', Meeting: 'meeting' }}
+        details={{ Lecture: 'Concepts, examples and study prompts', Meeting: 'Decisions and action items' }} />
+    </section>
+    <Group header="Before you start" footer="Audio goes to Google Gemini to make captions and isn’t kept. Transcripts stay in this browser.">
+      <Switch checked={consent} onChange={setConsent} tile={['agree', 'green']} title="Everyone agrees to transcription" />
+      <Switch checked={allowAI} onChange={setAllowAI} tile={['sparkles', 'blue']} title="Make AI notes after saving" detail="Summary and answers from Gemini, using the transcript." />
     </Group>
   </Screen>;
 
   const live = cap.phase === 'listening';
   return <Screen title={title.trim() || 'Live Captions'} large={false} className={'live' + (flash ? ' flash' : '')}
-    center={<span className={'status ' + cap.phase} role="status"><span className="dot" aria-hidden="true" />{status}</span>}
+    leading={<span className={'status ' + cap.phase}>
+      <span className="dot" aria-hidden="true" /><span role="status">{status}</span>
+      <span className="elapsed" aria-hidden="true">{formatTime(cap.elapsed)}</span>
+      <span className="visually-hidden" role="timer">Elapsed {spokenTime(cap.elapsed)}</span>
+    </span>}
     trailing={<NavButton strong onClick={leave}>Done</NavButton>}
-    toolbar={<div className="toolbar live-bar">
+    toolbar={<div className="live-bar">
       {!!(saveError || (cap.error && stopped)) && <p className="banner" role="alert"><Icon name="alert" size={20} /><span>{saveError || cap.error}</span></p>}
-      <Waveform level={cap.level} active={live} />
-      <p className="clock tabular"><span aria-hidden="true">{formatTime(cap.elapsed)}</span><span className="visually-hidden">Elapsed {spokenTime(cap.elapsed)}</span></p>
-      <div className="live-controls">
-        <span className="live-side" />
-        <RecordButton state={stopped ? 'record' : 'stop'} disabled={busy || saving}
-          label={stopped ? 'Resume captions' : 'Stop microphone'} onClick={() => stopped ? void cap.start(consent) : stop()} />
-        <span className="live-side end">
-          {stopped && <Button size="small" kind="tinted" disabled={!spoken.length || saving} onClick={() => void save()}>{saving ? 'Saving…' : 'Save'}</Button>}
-        </span>
+      <div className="live-dock dock-glass">
+        <Waveform level={cap.level} active={live} />
+        <div className="live-controls">
+          <button type="button" className="round-btn" aria-label="Caption style" onClick={() => setStyling(true)}><Icon name="textformat" size={24} /></button>
+          <RecordButton state={stopped ? 'record' : 'stop'} disabled={busy || saving}
+            label={stopped ? 'Resume captions' : 'Stop microphone'} onClick={() => stopped ? void cap.start(consent) : stop()} />
+          {stopped
+            ? <button type="button" className="round-btn save" disabled={!spoken.length || saving} onClick={() => void save()}>{saving ? 'Saving…' : 'Save'}</button>
+            : <button type="button" className="round-btn" aria-label="Jump to newest caption" disabled={follow} onClick={() => setFollow(true)}><Icon name="jump" size={22} weight={2} /></button>}
+        </div>
       </div>
     </div>}>
+    <span className="aura" aria-hidden="true"><i /><i /></span>
+    <p className="live-title">{title.trim() || 'Untitled session'} · {mode}</p>
     {/* Screen readers hear each finished caption once, never the typing indicator. */}
     {prefs.announce && <p className="visually-hidden" aria-live="polite">{spoken.at(-1)?.text}</p>}
     <div className="transcript-live" ref={list} tabIndex={0} role="log" aria-label="Live captions"
@@ -108,11 +126,12 @@ export function Capture({ onExit, onSave }: { onExit: () => void; onSave: (sessi
       {!captions.length && !cap.pending && <p className="live-hint">{stopped ? 'No speech was captured.' : 'Captions appear a few seconds after someone speaks.'}</p>}
       {captions.map((line, i) => line.text === MISSED
         ? <p key={i} className="missed"><Icon name="alert" size={16} />Missed audio</p>
-        : <p key={i} className={'caption' + (i < captions.length - 2 ? ' settled' : '')}>
+        : <p key={i} className={'caption' + (i === captions.length - 1 ? ' newest' : i < captions.length - 2 ? ' settled' : ' recent')}>
           {prefs.timestamps && <span className="cap-time tabular">{formatTime(line.at)}</span>}{line.text}</p>)}
       {cap.pending > 0 && <p className="caption typing" aria-hidden="true"><i /><i /><i /></p>}
     </div>
-    {!follow && captions.length > 0 && <button type="button" className="jump" onClick={() => setFollow(true)}>Jump to Live</button>}
+    <ActionSheet open={styling} onClose={() => setStyling(false)} title="Caption style"
+      actions={quickStyles.map(p => ({ label: presetNames[p] + (prefs.preset === p ? ' (Current)' : ''), onSelect: () => { update({ preset: p }); setStyling(false); } }))} />
     <ActionSheet open={leaving} onClose={() => setLeaving(false)}
       title={spoken.length ? 'Save this session before leaving?' : undefined}
       actions={[

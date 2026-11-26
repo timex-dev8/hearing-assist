@@ -44,7 +44,7 @@ export default function App() {
 
   return <Switch>
     <Route path="/"><Notebook sessions={sessions} /></Route>
-    <Route path="/settings"><Settings onBack={home} /></Route>
+    <Route path="/settings"><Settings /></Route>
     <Route path="/settings/captions"><CaptionSettings onBack={up('/settings')} /></Route>
     <Route path="/new"><Capture onExit={home} onSave={async s => {
       await persist(s);

@@ -71,7 +71,7 @@ test('caption style persists and drives live and saved captions', async ({ page 
   await expect(sample).toHaveCSS('color', 'rgb(255, 214, 10)');
   await page.getByRole('slider', { name: /Text Size/ }).fill('4');
   await expect(page.getByRole('radio', { name: 'Custom' })).toHaveAttribute('aria-checked', 'true');
-  expect(parseFloat(await sample.evaluate(el => getComputedStyle(el).fontSize))).toBeGreaterThan(before * 1.5);
+  await expect.poll(async () => parseFloat(await sample.evaluate(el => getComputedStyle(el).fontSize))).toBeGreaterThan(before * 1.5);
   await page.reload();
   await expect(page.getByRole('radio', { name: 'Custom' })).toHaveAttribute('aria-checked', 'true');
   await expect(page.getByRole('slider', { name: /Text Size/ })).toHaveAttribute('aria-valuetext', 'Huge');
