@@ -16,9 +16,9 @@ async function open(page: Page, path: string) {
 test('the landing page passes axe in light, dark and more contrast', async ({ page }) => {
   await open(page, '/');
   const problems = await scan(page, 'landing');
-  await page.getByRole('tab', { name: 'Meeting' }).click();
-  await page.locator('.faq summary').first().click();
-  problems.push(...await scan(page, 'landing, meeting notes and an open answer'));
+  await page.getByRole('button', { name: 'Classic' }).click();
+  await page.locator('.l-faq-list summary').first().click();
+  problems.push(...await scan(page, 'landing, classic captions and an open answer'));
   expect(problems, problems.join('\n')).toEqual([]);
 });
 
@@ -79,7 +79,7 @@ test('every app screen and sheet passes axe in light, dark and more contrast', a
 test('keyboard alone: landing, app, session, export, editor toolbar', async ({ page }) => {
   await seed(page);
   await open(page, '/');
-  await tabTo(page, /^Open app$/);
+  await tabTo(page, /^Open the app$/);
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/\/app$/);
   await ready(page);
