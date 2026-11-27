@@ -1,5 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
-import type { Generate } from './assistant';
+import type { Generate } from './assistant.js';
 
 let client: GoogleGenAI | undefined;
 function gemini() {

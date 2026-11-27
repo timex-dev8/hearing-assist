@@ -1,6 +1,6 @@
-import { InputError } from './_lib/assistant';
-import { transcribe } from './_lib/gemini';
-import { handle } from './_lib/http';
+import { InputError } from './_lib/assistant.js';
+import { transcribe } from './_lib/gemini.js';
+import { handle } from './_lib/http.js';
 
 // A 6–10 s mono 16 kHz WAV is about 200–320 KB; base64 adds a third.
 export const POST = handle(1_500_000, async body => {

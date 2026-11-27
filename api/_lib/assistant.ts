@@ -1,4 +1,4 @@
-import { isMode, templates, type Mode } from '../../shared/modes';
+import { isMode, templates, type Mode } from '../../shared/modes.js';
 export class InputError extends Error {}
 
 type JsonSchema = Record<string, unknown>;

@@ -4,7 +4,7 @@ Run this on a real iPhone (and an Android phone if a friend has one) using the V
 
 ## Website and app
 
-1. Open the Vercel URL in Safari. The landing page loads with the caption demo moving (still under Reduce Motion). Tap **Start captioning**: it opens the app's New session screen.
+1. Open the Vercel URL in Safari. The landing page loads; the three phones slide in once and stop (they don't move at all under Reduce Motion). Tap **Menu** in the top bar: the section links and **Open the app** appear, and the menu closes when you pick one. Tap **Open the app**: it opens Home (`/app`). Reload on `/app/notes`: the page loads, not a 404.
 2. Tap Share → Add to Home Screen, then open it from the icon. It opens on **Home** (`/app`), not the landing page. Check the icon, the status bar area and the bottom bar above the home indicator.
 3. Tap through Home, Notes, Study and Settings in the bottom bar. The raised Record button opens New session.
 

@@ -40,6 +40,4 @@ npm run build
 npm run e2e         # phone-sized browser tests with a fake microphone; uses installed Google Chrome
 ```
 
-Code map: screens in `src/screens`, shared controls in `src/components/ui.tsx`, microphone and clip upload in `src/capture`, browser storage in `src/storage`, the AI client in `src/ai`, and the serverless functions in `api/` (shared code in `api/_lib`). For real-device testing, follow [docs/device-check.md](docs/device-check.md).
-
-This project grew out of [conversation-companion](https://github.com/timex-dev8/conversation-companion), an Expo app with the same notebook, consent flow and quote-checked notes.
+Code map: the landing page in `src/landing`, app screens in `src/app`, shared controls in `src/components/ui.tsx`, microphone and clip upload in `src/capture`, browser storage in `src/storage`, the AI client in `src/ai`, and the serverless functions in `api/` (shared code in `api/_lib`). For real-device testing, follow [docs/device-check.md](docs/device-check.md).

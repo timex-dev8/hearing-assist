@@ -3,7 +3,7 @@ import { Link, useLocation } from 'wouter';
 import { Icon, type IconName } from '../components/ui';
 
 /** The mark: a caption card with two lines of text and a live dot. */
-export function Logo({ size = 28 }: { size?: number }) {
+function Logo({ size = 28 }: { size?: number }) {
   return <svg className="logo-mark" width={size} height={size} viewBox="0 0 32 32" aria-hidden="true" focusable="false">
     <rect width="32" height="32" rx="9" fill="currentColor" />
     <rect x="7" y="11" width="18" height="3.2" rx="1.6" fill="var(--bg)" />
@@ -11,7 +11,7 @@ export function Logo({ size = 28 }: { size?: number }) {
     <circle cx="23.2" cy="19.2" r="2.6" fill="#30d158" />
   </svg>;
 }
-export function Wordmark({ href = '/' }: { href?: string }) {
+function Wordmark({ href = '/' }: { href?: string }) {
   return <Link href={href} className="wordmark" aria-label="Hearing Assist home"><Logo /><span>Hearing Assist</span></Link>;
 }
 

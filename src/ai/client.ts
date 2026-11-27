@@ -4,7 +4,7 @@ import { MISSED } from '../capture/use-capture';
 const MARK_WINDOW = 12_000; // a mark covers what was said in the 12 seconds before the tap
 
 /** The captions around each moment the student marked. */
-export function markedPassages(session: Session) {
+function markedPassages(session: Session) {
   const spoken = session.captions.filter(c => c.text !== MISSED);
   return [...new Set((session.marks ?? []).flatMap(at => spoken.filter(c => c.at <= at + 1500 && c.at >= at - MARK_WINDOW).map(c => c.text)))].slice(0, 100);
 }
