@@ -51,7 +51,7 @@ const families: Record<Font, string> = {
   hyperlegible: '"Atkinson Hyperlegible Next Variable", -apple-system, system-ui, sans-serif',
 };
 const palette: Record<Colors, [string, string]> = {
-  auto: ['var(--ink)', 'var(--bg)'],
+  auto: ['var(--gt1)', 'var(--g0)'],
   'white-on-black': ['#ffffff', '#000000'],
   'black-on-white': ['#000000', '#ffffff'],
   'yellow-on-black': ['#ffd60a', '#000000'],

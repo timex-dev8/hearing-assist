@@ -56,12 +56,18 @@ export function Study({ cards, progress, onGrade }: { cards: Card[]; progress: P
 function StudyCard({ card, shown, onShow, onGrade, position, total }: {
   card: Card; shown: boolean; onShow: () => void; onGrade: (gotIt: boolean) => void; position: number; total: number;
 }) {
+  const done = Math.min(position - 1, total);
   return <section className={'flashcard ' + modeInfo[card.mode].css} aria-labelledby="card-front">
-    <p className="meta card-pos">Card {Math.min(position, total)} of {total} · {card.kind === 'term' ? 'Key term' : 'Question'}</p>
+    <div className="card-progress">
+      <p className="meta card-pos"><span>Card {Math.min(position, total)} of {total}</span><span>{card.kind === 'term' ? 'Key term' : 'Question'}</span></p>
+      <div className="bar" role="progressbar" aria-label="Cards reviewed" aria-valuemin={0} aria-valuemax={total} aria-valuenow={done}>
+        <i style={{ transform: `scaleX(${total ? done / total : 0})` }} />
+      </div>
+    </div>
     <h2 id="card-front" className="card-front">{card.front}</h2>
     {shown ? <div className="card-back settle" aria-live="polite">
       <p className="card-answer">{card.back}</p>
-      <blockquote className="quote-chip"><Icon name="quote" size={16} fill /><span><span className="visually-hidden">From the transcript: </span>{card.quote}</span></blockquote>
+      <blockquote className="quote-chip"><span><span className="visually-hidden">From the transcript: </span>{card.quote}</span></blockquote>
       <Link href={'/app/session/' + card.sessionId} className="text-link" data-navigates>From {card.sessionTitle}</Link>
     </div> : null}
     <div className="card-actions">

@@ -41,3 +41,5 @@ npm run e2e         # phone-sized browser tests with a fake microphone; uses ins
 ```
 
 Code map: the landing page in `src/landing`, app screens in `src/app`, shared controls in `src/components/ui.tsx`, microphone and clip upload in `src/capture`, browser storage in `src/storage`, the AI client in `src/ai`, and the serverless functions in `api/` (shared code in `api/_lib`). For real-device testing, follow [docs/device-check.md](docs/device-check.md).
+
+Design: v4 "Subtitle" (graphite screens, a light page, one caption-yellow mark). Tokens, components and the motion rules are in [DESIGN.md](DESIGN.md).

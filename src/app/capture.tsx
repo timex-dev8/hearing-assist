@@ -111,7 +111,6 @@ export function Capture({ initialMode, onExit, onSave }: { initialMode: Mode; on
   const status = cap.phase === 'starting' ? 'Connecting…' : live ? 'Listening' : cap.phase === 'stopping' ? 'Finishing…' : 'Microphone off';
   const fixedColors = prefs.preset === 'contrast' || prefs.preset === 'classic' || (prefs.preset === 'custom' && prefs.colors !== 'auto');
   return <div className={'live ' + modeInfo[mode].css + (flash ? ' flash' : '') + (fixedColors ? ' fixed-colors' : '')} role="region" aria-label="Live captions screen">
-    {!fixedColors && <span className="aura" aria-hidden="true"><i /><i /></span>}
     <header className="live-head">
       <span className={'status ' + cap.phase}>
         <span className="dot" aria-hidden="true" /><span role="status">{status}</span>

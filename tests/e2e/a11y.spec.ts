@@ -127,6 +127,24 @@ test('keyboard alone: landing, app, session, export, editor toolbar', async ({ p
   await expect(page.getByRole('textbox', { name: 'Notes for Cell Biology' })).toContainText('Typed with the keyboard');
 });
 
+test('sheets rise from below on the drawer curve, and open in place under Reduce Motion', async ({ page }) => {
+  await seed(page);
+  const sheetTransform = () => page.locator('dialog.sheet[open]').evaluate(d => getComputedStyle(d).transform);
+
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await open(page, '/app/session/1');
+  await page.getByRole('button', { name: 'More actions' }).click();
+  const timing = await page.locator('dialog.sheet[open]').evaluate(d => getComputedStyle(d).transitionTimingFunction);
+  expect(timing).toContain('cubic-bezier(0.32, 0.72, 0, 1)');
+  await expect.poll(sheetTransform).toBe('none'); // settles at rest
+  await page.getByRole('dialog').getByRole('button', { name: 'Cancel' }).click();
+  await expect(page.locator('dialog.sheet[open]')).toHaveCount(0);
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.getByRole('button', { name: 'More actions' }).click();
+  expect(await sheetTransform()).toBe('none'); // no slide, on screen at once
+});
+
 test('exports: a Word file downloads and the Google Docs copy carries formatting', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await seed(page);

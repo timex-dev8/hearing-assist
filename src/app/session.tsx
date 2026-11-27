@@ -190,7 +190,7 @@ function TranscriptPanel({ session, focusAt, onFocused }: { session: Session; fo
     {session.captions.map((line, i) => <li key={i} tabIndex={-1} className={(marked(line.at) ? 'marked' : '') + (flash === i ? ' flash' : '')}>
       <span className="cap-time tabular" aria-label={spokenTime(line.at)}>{formatTime(line.at)}</span>
       {line.text === MISSED ? <span className="missed"><Icon name="alert" size={16} />Missed audio</span>
-        : <span className="caption-text">{marked(line.at) && <span className="cap-mark"><Icon name="mark" size={16} fill /><span className="visually-hidden">Marked: </span></span>}{line.text}</span>}
+        : <span className="caption-text">{marked(line.at) && <span className="cap-mark"><Icon name="mark" size={16} fill /><span className="visually-hidden">Marked: </span></span>}{marked(line.at) ? <span className="mk">{line.text}</span> : line.text}</span>}
     </li>)}
   </ol>;
 }

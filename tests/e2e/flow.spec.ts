@@ -7,6 +7,8 @@ test('consent, live captions from audio clips, a mark, save, AI notes doc, ask, 
   const { uploads, noteRequests } = await stubApi(page);
   await page.goto('/app');
   await ready(page);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Home');
+  await expect(page.getByRole('radiogroup', { name: 'Mode' }).getByRole('radio')).toHaveCount(4);
   await page.getByRole('link', { name: 'Start meeting' }).or(page.getByRole('link', { name: 'Start lecture' })).first().click();
   await ready(page);
   const start = page.getByRole('button', { name: 'Start live captions' });
@@ -26,8 +28,19 @@ test('consent, live captions from audio clips, a mark, save, AI notes doc, ask, 
   // The rest of the app steps out of the way while captions run.
   await expect(page.getByRole('navigation', { name: 'Main' })).toBeHidden();
 
+  // The newest line arrives in 240ms or less; older lines are graphite grey, never ink on graphite.
+  const newest = log.locator('.caption.newest');
+  await expect(newest).toHaveCount(1);
+  const arrival = await newest.evaluate(el => el.getAnimations().map(a => Number(a.effect?.getTiming().duration)));
+  expect(arrival.every(d => d <= 240)).toBe(true);
+  await expect(page.locator('.live')).toHaveCSS('background-color', 'rgb(20, 21, 24)');
+
   await page.getByRole('button', { name: /^Mark this moment/ }).click();
   await expect(page.getByRole('button', { name: /1 marked/ })).toBeVisible();
+  // The marked line gets the yellow bar, grown to full width once its animation ends.
+  const marked = log.locator('.caption.marked').last();
+  await expect(marked).toHaveCSS('background-size', '100% 100%');
+  await expect(marked).toHaveCSS('color', 'rgb(20, 21, 24)');
   await page.getByRole('button', { name: 'Stop microphone' }).click();
   await page.getByRole('button', { name: 'Save', exact: true }).click();
 

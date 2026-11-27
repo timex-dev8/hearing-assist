@@ -2,13 +2,12 @@ import { createContext, useContext, useEffect, useRef, useState, type ReactNode 
 import { Link, useLocation } from 'wouter';
 import { Icon, type IconName } from '../components/ui';
 
-/** The mark: a caption card with two lines of text and a live dot. */
-function Logo({ size = 28 }: { size?: number }) {
+/** The mark: a graphite caption card with a line of text and a marked line. */
+export function Logo({ size = 28 }: { size?: number }) {
   return <svg className="logo-mark" width={size} height={size} viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-    <rect width="32" height="32" rx="9" fill="currentColor" />
-    <rect x="7" y="11" width="18" height="3.2" rx="1.6" fill="var(--bg)" />
-    <rect x="7" y="17.6" width="11" height="3.2" rx="1.6" fill="var(--bg)" opacity=".72" />
-    <circle cx="23.2" cy="19.2" r="2.6" fill="#30d158" />
+    <rect x="0.5" y="0.5" width="31" height="31" rx="8.5" fill="#141518" style={{ stroke: 'var(--line-2)' }} />
+    <rect x="7" y="11" width="18" height="3.2" rx="1.6" fill="#f2f2f0" />
+    <rect x="7" y="17.6" width="12" height="3.2" rx="1.6" fill="#ffd60a" />
   </svg>;
 }
 function Wordmark({ href = '/' }: { href?: string }) {
@@ -47,7 +46,7 @@ export function Shell({ children, due }: { children: ReactNode; due: number }) {
       <aside className="sidebar" inert={immersive}>
         <Wordmark href="/app" />
         <Link href="/app/new" className={'btn primary lg new-session' + (recording ? ' on' : '')} aria-current={recording ? 'page' : undefined} data-navigates>
-          <span className="record-dot" aria-hidden="true" /><span>New session</span>
+          <Icon name="mic" size={20} bold /><span>New session</span>
         </Link>
         <nav aria-label="Main" className="side-nav">{places.map(item)}</nav>
         <p className="side-note"><Icon name="lock" size={18} /><span>Sessions are saved in this browser only.</span></p>
@@ -56,7 +55,7 @@ export function Shell({ children, due }: { children: ReactNode; due: number }) {
       <nav className="bottom-nav" aria-label="Main" inert={immersive}>
         {places.slice(0, 2).map(item)}
         <Link href="/app/new" className={'nav-item record' + (recording ? ' on' : '')} aria-current={recording ? 'page' : undefined} data-navigates>
-          <span className="nav-glyph"><span className="record-dot" aria-hidden="true" /></span><span className="nav-label">Record</span>
+          <span className="nav-glyph"><Icon name="mic" size={24} fill /></span><span className="nav-label">Record</span>
         </Link>
         {places.slice(2).map(item)}
       </nav>

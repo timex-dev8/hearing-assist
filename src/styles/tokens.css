@@ -1,86 +1,114 @@
-/* Hearing Assist tokens. See DESIGN.md. Light by default; dark and "match device" via data-theme on <html>. */
+/* Hearing Assist v4 "Subtitle" tokens. See DESIGN.md.
+   Graphite screens, a light page, one caption-yellow mark. Light by default; dark and
+   "match device" via data-theme on <html>. light-dark() takes colors only. */
 :root { color-scheme: light; }
-:root[data-theme="dark"] { color-scheme: dark; --aura-opacity: 0.32; }
+:root[data-theme="dark"] { color-scheme: dark; }
 :root[data-theme="system"] { color-scheme: light dark; }
-@media (prefers-color-scheme: dark) { :root[data-theme="system"] { --aura-opacity: 0.32; } }
 
 :root {
-  /* Grounds */
-  --bg: light-dark(#ffffff, #0b100e);
-  --surface: light-dark(#f4f7f5, #141b18);
-  --surface-2: light-dark(#e9eeeb, #1c2420);
-  --raised: light-dark(#ffffff, #1a221f);
-  --line: light-dark(#dfe5e2, #26302b);
-  --line-strong: light-dark(#7b8882, #7f8c86);
-  --scrim: light-dark(rgb(14 26 22 / 0.4), rgb(0 0 0 / 0.6));
+  /* Graphite: the Live screen and dark panels. Fixed in both themes. */
+  --g0: #141518;
+  --g1: #1d1e22;
+  --g2: #2a2b30;
+  --g3: #3a3b41;
+  --gt1: #f2f2f0;
+  --gt2: #b9bbc1;
+  --gt3: #8d9097;
+  /* Page */
+  --bg: light-dark(#f7f7f6, #141518);
+  --raised: light-dark(#ffffff, #1d1e22);
+  --surface: light-dark(#efefed, #1d1e22);
+  --surface-2: light-dark(#e6e6e3, #2a2b30);
+  --line: light-dark(rgb(20 21 24 / 0.08), rgb(242 242 240 / 0.1));
+  --line-2: light-dark(rgb(20 21 24 / 0.16), rgb(242 242 240 / 0.18));
+  --line-strong: light-dark(#8d9097, #6c6f76);
+  --scrim: light-dark(rgb(20 21 24 / 0.42), rgb(0 0 0 / 0.6));
   /* Ink */
-  --ink: light-dark(#0e1a16, #eef3f1);
-  --ink-2: light-dark(#3f4c47, #b9c4bf);
-  --ink-3: light-dark(#5b6762, #93a09a);
+  --ink: light-dark(#141518, #f2f2f0);
+  --ink-2: light-dark(#45474d, #b9bbc1);
+  --ink-3: light-dark(#66696f, #8d9097);
+  --on-ink: light-dark(#ffffff, #141518);
   /* Roles */
-  --green: light-dark(#0f7a4a, #3ddc84);
-  --green-press: light-dark(#0b6139, #2fc472);
-  --on-green: light-dark(#ffffff, #04130b);
-  --green-soft: light-dark(#e7f6ec, #12301f);
-  --blue: light-dark(#0b62c4, #6aa8ff);
-  --blue-soft: light-dark(#e8f0fc, #14243b);
-  --red: light-dark(#c62828, #ff6b6b);
-  --red-fill: light-dark(#e5322d, #ff5a52);
-  --red-soft: light-dark(#fdecec, #3a1717);
-  --amber: light-dark(#8a5200, #f2b45a);
-  --amber-soft: light-dark(#fdf2dd, #33260f);
-  --violet: light-dark(#6a42c2, #b69bff);
-  --violet-soft: light-dark(#f0eafb, #261d3d);
-  --focus: light-dark(#0b62c4, #8fbfff);
-  --aura-1: #30d158;
-  --aura-2: #0a84ff;
-  --aura-opacity: 0.4; /* light-dark() takes colors only, so dark sets its own below */
-  /* Depth */
-  --float: 0 1px 2px rgb(14 26 22 / 0.06), 0 8px 24px -6px rgb(14 26 22 / 0.16);
-  --float-strong: 0 2px 6px rgb(14 26 22 / 0.08), 0 24px 48px -12px rgb(14 26 22 / 0.24);
-  --bar: color-mix(in srgb, var(--bg) 84%, transparent);
+  --mark: #ffd60a;
+  --mark-ink: #141518;
+  --alert: light-dark(#c4321f, #ff8a7a);
+  --alert-on-dark: #ff8a7a;
+  --live: #57c785;
+  /* Mode dots: always beside the mode's name, never alone */
+  --lec: #5b8def;
+  --pre: #4f9d76;
+  --mee: #d9a21b;
+  --sem: #d9738f;
+  --focus: var(--ink);
+
+  /* Old names kept as aliases of the nearest v4 role */
+  --green: var(--ink);
+  --green-press: light-dark(#000000, #ffffff);
+  --on-green: var(--on-ink);
+  --green-soft: var(--surface);
+  --blue: var(--ink);
+  --blue-soft: var(--surface);
+  --red: var(--alert);
+  --red-fill: #c4321f;
+  --red-soft: light-dark(#fbecea, #3a1d19);
+  --amber: var(--ink-2);
+  --amber-soft: var(--surface);
+  --violet: var(--ink-2);
+  --violet-soft: var(--surface);
+
+  /* Depth: hairlines and surface steps first; soft neutral shadow only on floating things */
+  --float: 0 1px 2px rgb(20 21 24 / 0.06), 0 8px 24px -8px rgb(20 21 24 / 0.16);
+  --float-strong: 0 2px 6px rgb(20 21 24 / 0.08), 0 24px 48px -16px rgb(20 21 24 / 0.3);
+  --bar: color-mix(in srgb, var(--bg) 86%, transparent);
   --bar-blur: blur(20px) saturate(160%);
-  /* Type */
-  --display: "Bricolage Grotesque Variable", "Atkinson Hyperlegible Next Variable", system-ui, sans-serif;
-  --text: "Atkinson Hyperlegible Next Variable", -apple-system, system-ui, "Segoe UI", sans-serif;
-  /* Shape and space */
+  /* Type: the system stack. Atkinson Hyperlegible only for the Classic caption style. */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Segoe UI", Roboto, sans-serif;
+  --display: var(--font);
+  --text: var(--font);
+  /* Shape */
+  --r-ctl: 10px;
+  --r-btn: 12px;
+  --r-card: 16px;
+  --r-panel: 20px;
+  --r-sheet: 24px;
   --r-sm: 10px;
   --r-md: 16px;
-  --r-lg: 28px;
+  --r-lg: 20px;
   --r-pill: 999px;
-  --gutter: max(1rem, env(safe-area-inset-left));
-  --gutter-r: max(1rem, env(safe-area-inset-right));
+  /* Space */
+  --gutter: max(clamp(1rem, 5vw, 1.25rem), env(safe-area-inset-left));
+  --gutter-r: max(clamp(1rem, 5vw, 1.25rem), env(safe-area-inset-right));
   --safe-top: env(safe-area-inset-top);
   --safe-bottom: env(safe-area-inset-bottom);
-  --nav-h: 4.5rem;
+  --nav-h: 5.25rem;
   --measure: 68ch;
-  /* Motion: critically damped exponential out, no bounce */
+  /* Motion: strong ease-out, no bounce. Drawer curve for sheets. */
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   --t-fast: 160ms;
-  --t-mid: 260ms;
-  --t-settle: 420ms;
+  --t-mid: 240ms;
+  --t-settle: 400ms;
 }
 
-/* Mode hues: set --mode/--mode-soft by class */
-.mode-lecture { --mode: var(--green); --mode-soft: var(--green-soft); }
-.mode-presentation { --mode: var(--blue); --mode-soft: var(--blue-soft); }
-.mode-meeting { --mode: var(--amber); --mode-soft: var(--amber-soft); }
-.mode-seminar { --mode: var(--violet); --mode-soft: var(--violet-soft); }
+/* Mode: the dot colour only */
+.mode-lecture { --mode: var(--lec); }
+.mode-presentation { --mode: var(--pre); }
+.mode-meeting { --mode: var(--mee); }
+.mode-seminar { --mode: var(--sem); }
+[class*="mode-"] { --mode-soft: var(--surface); }
 
 @media (prefers-contrast: more) {
   :root {
-    --line: light-dark(#7b8882, #7f8c86);
-    --line-strong: light-dark(#3f4c47, #b9c4bf);
-    --ink-2: light-dark(#26302c, #dbe3df);
-    --ink-3: light-dark(#3f4c47, #b9c4bf);
-    --green: light-dark(#075a35, #5ff0a0);
-    --blue: light-dark(#084b98, #9cc6ff);
-    --red: light-dark(#9d1717, #ff9a9a);
+    --line: light-dark(#66696f, #8d9097);
+    --line-2: light-dark(#45474d, #b9bbc1);
+    --line-strong: light-dark(#45474d, #b9bbc1);
+    --ink-2: light-dark(#2a2b30, #dcdddf);
+    --ink-3: light-dark(#45474d, #b9bbc1);
+    --gt3: #b9bbc1;
     --bar: var(--bg);
     --bar-blur: none;
-    --aura-opacity: 0 !important;
   }
 }
 @media (prefers-reduced-transparency: reduce) {
-  :root { --bar: var(--bg); --bar-blur: none; --aura-opacity: 0 !important; }
+  :root { --bar: var(--bg); --bar-blur: none; }
 }

@@ -1,6 +1,5 @@
 @import '@fontsource-variable/atkinson-hyperlegible-next/wght.css';
 @import '@fontsource-variable/atkinson-hyperlegible-next/wght-italic.css';
-@import '@fontsource-variable/bricolage-grotesque/opsz.css';
 
 *, *::before, *::after { box-sizing: border-box; }
 /* On iOS Safari this makes 1rem follow Settings → Display & Brightness → Text Size. */
@@ -14,7 +13,7 @@ body {
   color: var(--ink);
   font-family: var(--text);
   font-size: 1rem;
-  line-height: 1.55;
+  line-height: 1.45;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
   overflow-wrap: break-word;
@@ -25,11 +24,11 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 a { color: inherit; }
 p, h1, h2, h3, h4, ul, ol, blockquote, figure, dl, dd { margin: 0; padding: 0; }
 ul, ol { list-style: none; }
-h1, h2, h3, h4 { font-family: var(--display); font-weight: 620; letter-spacing: -0.02em; line-height: 1.15; text-wrap: balance; }
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 500; letter-spacing: -0.02em; line-height: 1.15; text-wrap: balance; }
 p { text-wrap: pretty; }
 img, svg { display: block; }
-::selection { background: color-mix(in srgb, var(--green) 24%, transparent); color: var(--ink); }
-input, textarea, [contenteditable] { caret-color: var(--green); }
+::selection { background: var(--mark); color: var(--mark-ink); }
+input, textarea, [contenteditable] { caret-color: var(--ink); }
 :focus { outline: none; }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: var(--r-sm); }
 /* Headings take focus on route change so screen readers land there; no ring for that. */
@@ -39,25 +38,18 @@ h1[tabindex="-1"]:focus { outline: none; }
 .visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 .skip-link {
   position: fixed; top: calc(var(--safe-top) + 0.5rem); left: 0.5rem; z-index: 200;
-  padding: 0.75rem 1.125rem; border-radius: var(--r-pill); background: var(--ink); color: var(--bg); font-weight: 700; text-decoration: none;
+  padding: 0.75rem 1.125rem; border-radius: var(--r-pill); background: var(--ink); color: var(--bg); font-weight: 500; text-decoration: none;
   transform: translateY(-200%);
 }
 .skip-link:focus-visible { transform: none; }
 html { scrollbar-color: var(--line-strong) transparent; }
 
-/* The aura: two soft fields of light. Only behind the stage, the Start card and live captions. */
-.aura { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; border-radius: inherit; }
-.aura i {
-  position: absolute; width: 70%; aspect-ratio: 1; border-radius: 50%; filter: blur(64px); opacity: var(--aura-opacity);
-  animation: aura 24s var(--ease) infinite alternate;
-}
-.aura i:first-child { background: var(--aura-1); left: -18%; top: -30%; }
-.aura i:last-child { background: var(--aura-2); right: -20%; bottom: -40%; animation-delay: -12s; }
-@keyframes aura { to { transform: translate(8%, 10%) scale(1.08); } }
+/* The aura is retired in v4; the class stays inert until markup drops it. */
+.aura { display: none; }
 
-/* Words that settle: blurred and lifted, then sharp. */
-@keyframes settle { from { opacity: 0; filter: blur(6px); transform: translateY(0.35em); } }
-.settle { animation: settle var(--t-settle) var(--ease) both; }
+/* Words that settle: a short rise and fade. Transform and opacity only. */
+@keyframes settle { from { opacity: 0; transform: translateY(4px); } }
+.settle { animation: settle var(--t-mid) var(--ease) both; }
 
 @media (forced-colors: active) {
   :focus-visible { outline-color: Highlight; }
@@ -66,7 +58,6 @@ html { scrollbar-color: var(--line-strong) transparent; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
-  .aura i { animation: none; }
 }
 ::view-transition-old(root) { animation: 160ms var(--ease) both vt-out; }
 ::view-transition-new(root) { animation: 220ms var(--ease) both vt-in; }

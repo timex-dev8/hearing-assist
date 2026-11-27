@@ -28,10 +28,14 @@ test('every fixed caption color pair is at least 7:1 (WCAG AAA)', () => {
   }
 });
 
-test('CSS variables use rem so captions follow the phone text size, and auto colors follow the theme', () => {
+test('CSS variables use rem so captions follow the phone text size; auto colors are graphite, like the Live screen', () => {
   const vars = captionVars(presets.default);
   assert.match(vars['--cap-size'], /rem$/);
-  assert.equal(vars['--cap-fg'], 'var(--ink)');
+  assert.equal(vars['--cap-fg'], 'var(--gt1)');
+  assert.equal(vars['--cap-bg'], 'var(--g0)');
+  assert.equal(captionVars(presets.large)['--cap-fg'], 'var(--gt1)');
+  assert.deepEqual([captionVars(presets.contrast)['--cap-fg'], captionVars(presets.contrast)['--cap-bg']], ['#ffffff', '#000000']);
+  assert.deepEqual([captionVars(presets.classic)['--cap-fg'], captionVars(presets.classic)['--cap-bg']], ['#ffd60a', '#000000']);
   assert.equal(captionVars({ ...presets.default, spacing: 'roomy' })['--cap-leading'], '1.65');
   assert.match(captionVars({ ...presets.default, font: 'hyperlegible' })['--cap-font'], /Atkinson Hyperlegible/);
 });

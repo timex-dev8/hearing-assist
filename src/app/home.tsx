@@ -2,29 +2,23 @@ import { useState } from 'react';
 import { Link } from 'wouter';
 import { Page } from './shell';
 import { Button, Choice, Icon } from '../components/ui';
-import { modeClasses, modeIcons, modeInfo, modes, type Mode } from '../notes/modes';
+import { modeClasses, modeInfo, modes, type Mode } from '../notes/modes';
 import { SessionRow, excerpt, ModeBadge } from './session-row';
 import { formatTime, shortWhen } from '../util/time';
 import type { Session } from '../types';
-
-function greeting(hour = new Date().getHours()) {
-  return hour < 5 ? 'Up late' : hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
-}
 
 export function Home({ sessions, due, cards }: { sessions: Session[]; due: number; cards: number }) {
   const [mode, setMode] = useState<Mode>(sessions[0]?.mode ?? 'Lecture');
   const latest = sessions[0];
   const today = new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
-  return <Page title={greeting()} docTitle="Home" className="home" sub={<p>{today}</p>}>
+  return <Page title="Home" className="home" sub={<p>{today}</p>}>
     <div className="home-grid">
-      <section className="start-card" aria-labelledby="start-h">
-        <span className="aura" aria-hidden="true"><i /><i /></span>
+      <section className="start-card on-graphite" aria-labelledby="start-h">
         <div className="start-inner">
-          <h2 id="start-h" className="start-title">Start live captions</h2>
-          <p className="start-lead" id="start-mode-h">What are you listening to? Your notes are shaped to fit.</p>
-          <Choice values={modes} selected={mode} onChange={setMode} labelledBy="start-mode-h" icons={modeIcons} classes={modeClasses} />
-          <p className="start-gets">{modeInfo[mode].gets}.</p>
-          <Button href={'/app/new?mode=' + mode} size="lg" icon="mic">Start {mode.toLowerCase()}</Button>
+          <h2 id="start-h" className="start-title">New session</h2>
+          <Choice variant="segmented" values={modes} selected={mode} onChange={setMode} label="Mode" classes={modeClasses} />
+          <Button href={'/app/new?mode=' + mode} size="lg" icon="mic" className="block">Start {mode.toLowerCase()}</Button>
+          <p className="start-gets meta">Notes will pick out {modeInfo[mode].gets.toLowerCase()}.</p>
         </div>
       </section>
 
